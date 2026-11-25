@@ -1,0 +1,695 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f8f5f1">
+  <title>Dear Dress｜婚紗・禮服收藏</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #302b28;
+      --muted: #817973;
+      --rose: #a76f68;
+      --rose-dark: #875750;
+      --paper: #fffdfa;
+      --canvas: #f8f5f1;
+      --line: #e9e2dc;
+      --serif: "Iowan Old Style", "Baskerville", "Times New Roman", serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--canvas);
+      font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    button, input, select { font: inherit; }
+    button { cursor: pointer; }
+
+    .page-shell { width: min(1180px, calc(100% - 48px)); margin: 0 auto; }
+
+    .topbar {
+      height: 74px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(126, 104, 92, .13);
+    }
+
+    .brand {
+      color: var(--ink);
+      font-family: var(--serif);
+      font-size: 19px;
+      letter-spacing: .13em;
+      text-decoration: none;
+    }
+
+    .brand span { color: var(--rose); }
+    .saved-count { color: var(--muted); font-size: 13px; }
+    .top-actions { display: flex; align-items: center; gap: 12px; }
+    .data-button {
+      min-height: 34px;
+      padding: 0 12px;
+      border: 1px solid var(--line);
+      border-radius: 2px;
+      color: #625a54;
+      background: transparent;
+      font-size: 12px;
+    }
+
+    .data-button:hover { border-color: #c9b9af; background: var(--paper); }
+
+    .hero {
+      padding: 66px 0 42px;
+      text-align: center;
+    }
+
+    .eyebrow {
+      color: var(--rose);
+      font-family: var(--serif);
+      font-size: 12px;
+      letter-spacing: .28em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 13px 0 11px;
+      font-family: var(--serif);
+      font-size: clamp(36px, 5vw, 54px);
+      font-weight: 400;
+      letter-spacing: .06em;
+    }
+
+    .hero p { margin: 0; color: var(--muted); font-size: 14px; letter-spacing: .04em; }
+
+    .primary-button {
+      min-height: 45px;
+      padding: 0 21px;
+      border: 0;
+      border-radius: 2px;
+      color: white;
+      background: var(--rose);
+      font-size: 13px;
+      letter-spacing: .06em;
+      transition: background .18s ease, transform .18s ease;
+    }
+
+    .primary-button:hover { background: var(--rose-dark); transform: translateY(-1px); }
+    .hero .primary-button { margin-top: 25px; }
+
+    .editor {
+      margin: 0 auto 34px;
+      padding: 24px;
+      max-width: 860px;
+      border: 1px solid var(--line);
+      background: var(--paper);
+      box-shadow: 0 10px 35px rgba(66, 48, 37, .04);
+    }
+
+    .editor[hidden] { display: none; }
+    .editor-heading { display: flex; justify-content: space-between; align-items: center; margin-bottom: 19px; }
+    .editor-heading h2 { margin: 0; font-family: var(--serif); font-size: 23px; font-weight: 400; }
+    .text-button { padding: 5px 0; border: 0; color: var(--muted); background: transparent; font-size: 13px; }
+    .text-button:hover { color: var(--rose-dark); }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px 18px;
+    }
+
+    .field { display: grid; gap: 7px; }
+    .field label { color: #625a54; font-size: 12px; }
+    .field input, .field select, .filter-control {
+      width: 100%;
+      height: 43px;
+      padding: 0 12px;
+      border: 1px solid var(--line);
+      border-radius: 2px;
+      outline: none;
+      color: var(--ink);
+      background: #fff;
+      font-size: 13px;
+    }
+
+    .field input:focus, .field select:focus, .filter-control:focus {
+      border-color: #bd918b;
+      box-shadow: 0 0 0 3px rgba(167, 111, 104, .1);
+    }
+
+    .form-footer { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-top: 18px; }
+    .form-note { color: var(--muted); font-size: 12px; }
+    .form-actions { display: flex; gap: 10px; }
+    .secondary-button {
+      min-height: 43px;
+      padding: 0 18px;
+      border: 1px solid var(--line);
+      border-radius: 2px;
+      color: #625a54;
+      background: transparent;
+      font-size: 13px;
+    }
+
+    .secondary-button:hover { border-color: #c9b9af; background: #fbf8f5; }
+    .form-error { min-height: 18px; margin: 10px 0 0; color: #a33e36; font-size: 12px; }
+
+    .notice {
+      margin: 0 auto 22px;
+      padding: 12px 15px;
+      max-width: 860px;
+      border: 1px solid #e8c9c4;
+      color: #813d37;
+      background: #fff6f4;
+      font-size: 13px;
+    }
+
+    .notice[hidden] { display: none; }
+
+    .collection { padding: 0 0 76px; }
+    .collection-top {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 25px;
+      padding-bottom: 17px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .collection-title h2 {
+      margin: 0 0 5px;
+      font-family: var(--serif);
+      font-size: 27px;
+      font-weight: 400;
+      letter-spacing: .04em;
+    }
+
+    .collection-title p { margin: 0; color: var(--muted); font-size: 12px; }
+    .filters { display: flex; justify-content: flex-end; gap: 9px; width: min(690px, 66%); }
+    .search-wrap { position: relative; flex: 1; min-width: 160px; }
+    .search-wrap::before {
+      position: absolute;
+      top: 50%;
+      left: 13px;
+      color: #978d85;
+      content: "⌕";
+      font-size: 19px;
+      transform: translateY(-53%);
+      pointer-events: none;
+    }
+    .search-wrap input { padding-left: 37px; }
+    .filters select { width: 130px; flex: 0 0 130px; }
+    .clear-button { padding: 0 7px; border: 0; color: var(--rose-dark); background: transparent; font-size: 12px; white-space: nowrap; }
+
+    .result-line { min-height: 37px; display: flex; align-items: center; justify-content: space-between; color: var(--muted); font-size: 12px; }
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 29px 21px;
+    }
+
+    .dress-card { min-width: 0; background: var(--paper); }
+    .card-image {
+      position: relative;
+      overflow: hidden;
+      aspect-ratio: 4 / 5;
+      background: linear-gradient(145deg, #eee8e2, #e1d7cf 54%, #f5f0ec);
+    }
+
+    .card-image::after {
+      position: absolute;
+      inset: 45% 0 0;
+      background: linear-gradient(transparent, rgba(38, 29, 24, .12));
+      content: "";
+      pointer-events: none;
+    }
+
+    .card-image img { width: 100%; height: 100%; display: block; object-fit: cover; transition: transform .5s ease; }
+    .dress-card:hover .card-image img { transform: scale(1.035); }
+    .image-placeholder {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-content: center;
+      color: rgba(91, 73, 62, .5);
+      text-align: center;
+    }
+    .image-placeholder span { font-family: var(--serif); font-size: 42px; }
+    .image-placeholder small { margin-top: 5px; font-size: 10px; letter-spacing: .16em; }
+    .type-tag {
+      position: absolute;
+      z-index: 1;
+      top: 12px;
+      left: 12px;
+      padding: 6px 10px;
+      color: #51443c;
+      background: rgba(255, 253, 250, .91);
+      font-size: 11px;
+      letter-spacing: .05em;
+    }
+
+    .card-content { padding: 15px 14px 14px; }
+    .card-vendor { overflow: hidden; color: var(--muted); font-size: 11px; text-overflow: ellipsis; white-space: nowrap; }
+    .card-id { overflow: hidden; margin: 5px 0 13px; font-family: var(--serif); font-size: 23px; letter-spacing: .04em; text-overflow: ellipsis; white-space: nowrap; }
+    .card-actions { display: flex; gap: 16px; padding-top: 11px; border-top: 1px solid #f0ebe6; }
+    .card-actions button { padding: 0; border: 0; color: #766b64; background: transparent; font-size: 12px; }
+    .card-actions button:hover { color: var(--rose-dark); }
+    .card-actions .delete-button:hover { color: #a33e36; }
+
+    .empty-state {
+      grid-column: 1 / -1;
+      padding: 64px 20px;
+      border: 1px dashed #ded4cb;
+      color: var(--muted);
+      text-align: center;
+      background: rgba(255, 253, 250, .55);
+    }
+
+    .empty-state strong { display: block; margin-bottom: 9px; color: var(--ink); font-family: var(--serif); font-size: 24px; font-weight: 400; }
+    .empty-state p { margin: 0; font-size: 13px; }
+
+    footer { padding: 23px 0 30px; border-top: 1px solid var(--line); color: #988e86; font-family: var(--serif); font-size: 12px; letter-spacing: .1em; text-align: center; }
+
+    @media (max-width: 900px) {
+      .gallery { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 23px 16px; }
+      .collection-top { align-items: stretch; flex-direction: column; gap: 16px; }
+      .filters { width: 100%; }
+    }
+
+    @media (max-width: 620px) {
+      .page-shell { width: min(100% - 32px, 480px); }
+      .topbar { height: auto; min-height: 62px; gap: 10px; }
+      .top-actions { gap: 7px; }
+      .saved-count { font-size: 11px; }
+      .data-button { min-height: 32px; padding: 0 9px; font-size: 11px; }
+      .hero { padding: 49px 0 32px; }
+      .hero p { font-size: 12px; }
+      .editor { padding: 18px 15px; }
+      .form-grid { grid-template-columns: 1fr; gap: 13px; }
+      .form-footer { align-items: flex-start; flex-direction: column; }
+      .form-actions { width: 100%; }
+      .form-actions button { flex: 1; }
+      .filters { display: grid; grid-template-columns: 1fr 1fr; }
+      .search-wrap { grid-column: 1 / -1; }
+      .filters select { width: 100%; }
+      .clear-button { justify-self: start; grid-column: 1 / -1; min-height: 25px; }
+      .gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 17px 11px; }
+      .card-content { padding: 12px 10px; }
+      .card-id { font-size: 20px; }
+      .card-actions { gap: 13px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar page-shell">
+    <a class="brand" href="#" aria-label="Dear Dress 首頁">DEAR <span>DRESS</span></a>
+    <div class="top-actions">
+      <div class="saved-count" id="savedCount" aria-live="polite">已收藏 0 款</div>
+      <button class="data-button" id="importButton" type="button" aria-label="匯入收藏清單">匯入</button>
+      <button class="data-button" id="exportButton" type="button" aria-label="匯出收藏清單">匯出</button>
+      <input id="importFile" type="file" accept=".json,application/json" hidden>
+    </div>
+  </header>
+
+  <main class="page-shell">
+    <section class="hero" aria-labelledby="pageTitle">
+      <div class="eyebrow">Your wedding, your story</div>
+      <h1 id="pageTitle">婚紗・禮服收藏</h1>
+      <p>把每一份心動好好收藏，為重要的日子找到最喜歡的模樣。</p>
+      <button class="primary-button" id="openEditor" type="button">＋　新增收藏</button>
+    </section>
+
+    <section class="editor" id="editor" aria-labelledby="editorTitle" hidden>
+      <div class="editor-heading">
+        <h2 id="editorTitle">新增一份心動</h2>
+        <button class="text-button" id="closeEditor" type="button" aria-label="關閉表單">✕ 關閉</button>
+      </div>
+      <form id="dressForm">
+        <div class="form-grid">
+          <div class="field">
+            <label for="vendorInput">廠商</label>
+            <input id="vendorInput" name="vendor" type="text" list="vendorSuggestions" maxlength="80" placeholder="例如：My Dear 婚紗" required>
+            <datalist id="vendorSuggestions"></datalist>
+          </div>
+          <div class="field">
+            <label for="dressIdInput">ID</label>
+            <input id="dressIdInput" name="dressId" type="text" maxlength="80" placeholder="例如：W528" required>
+          </div>
+          <div class="field">
+            <label for="imageInput">圖片網址</label>
+            <input id="imageInput" name="imageUrl" type="url" maxlength="2048" placeholder="https://example.com/dress.jpg" required>
+          </div>
+          <div class="field">
+            <label for="typeInput">類型</label>
+            <select id="typeInput" name="type" required>
+              <option value="白紗">白紗</option>
+              <option value="禮服">禮服</option>
+            </select>
+          </div>
+        </div>
+        <p class="form-error" id="formError" role="alert"></p>
+        <div class="form-footer">
+          <span class="form-note">資料只會儲存在這個瀏覽器，不會上傳至伺服器。</span>
+          <div class="form-actions">
+            <button class="secondary-button" id="cancelForm" type="button">取消</button>
+            <button class="primary-button" id="saveButton" type="submit">儲存收藏</button>
+          </div>
+        </div>
+      </form>
+    </section>
+
+    <div class="notice" id="storageNotice" role="alert" hidden></div>
+
+    <section class="collection" aria-labelledby="collectionHeading">
+      <div class="collection-top">
+        <div class="collection-title">
+          <h2 id="collectionHeading">我的收藏</h2>
+          <p>每一件，都是為那一天留下的美好想像。</p>
+        </div>
+        <div class="filters" role="search" aria-label="篩選收藏">
+          <div class="search-wrap">
+            <input class="filter-control" id="searchInput" type="search" placeholder="搜尋廠商或 ID…" aria-label="搜尋廠商或 ID">
+          </div>
+          <select class="filter-control" id="typeFilter" aria-label="依類型篩選">
+            <option value="">所有類型</option>
+            <option value="白紗">白紗</option>
+            <option value="禮服">禮服</option>
+          </select>
+          <select class="filter-control" id="vendorFilter" aria-label="依廠商篩選">
+            <option value="">所有廠商</option>
+          </select>
+          <button class="clear-button" id="clearFilters" type="button">清除篩選</button>
+        </div>
+      </div>
+      <div class="result-line">
+        <span id="resultCount" aria-live="polite">顯示 0 款</span>
+      </div>
+      <div class="gallery" id="gallery" aria-live="polite"></div>
+    </section>
+  </main>
+
+  <footer>DEAR DRESS · KEEP YOUR FAVORITES CLOSE</footer>
+
+  <script>
+    (() => {
+      const STORAGE_KEY = "mydear-dress-collection-v1";
+      const ALLOWED_TYPES = new Set(["白紗", "禮服"]);
+      const gallery = document.getElementById("gallery");
+      const editor = document.getElementById("editor");
+      const form = document.getElementById("dressForm");
+      const formError = document.getElementById("formError");
+      const storageNotice = document.getElementById("storageNotice");
+      const vendorFilter = document.getElementById("vendorFilter");
+      const vendorSuggestions = document.getElementById("vendorSuggestions");
+      const searchInput = document.getElementById("searchInput");
+      const typeFilter = document.getElementById("typeFilter");
+      const importFile = document.getElementById("importFile");
+      let records = [];
+      let editingUid = null;
+      let storageReady = true;
+
+      const makeUid = () => {
+        if (window.crypto && typeof window.crypto.randomUUID === "function") return window.crypto.randomUUID();
+        return `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+      };
+
+      const isValidRecord = (record) =>
+        record && typeof record === "object" &&
+        typeof record.uid === "string" && record.uid.trim() &&
+        typeof record.vendor === "string" && record.vendor.trim() &&
+        typeof record.dressId === "string" && record.dressId.trim() &&
+        typeof record.imageUrl === "string" && safeImageUrl(record.imageUrl) &&
+        ALLOWED_TYPES.has(record.type);
+
+      const showStorageError = (message) => {
+        storageNotice.textContent = message;
+        storageNotice.hidden = false;
+      };
+
+      const loadRecords = () => {
+        try {
+          const stored = localStorage.getItem(STORAGE_KEY);
+          if (stored === null) return [];
+          const parsed = JSON.parse(stored);
+          if (!Array.isArray(parsed) || !parsed.every(isValidRecord)) {
+            throw new Error("儲存資料格式不正確");
+          }
+          return parsed;
+        } catch (error) {
+          storageReady = false;
+          showStorageError(`無法讀取本機收藏資料：${error.message}。為避免覆蓋原資料，已暫停新增、修改、刪除與匯出；可匯入有效 JSON 備份來取代資料。`);
+          return [];
+        }
+      };
+
+      const persistRecords = (nextRecords, allowRecovery = false) => {
+        if (!storageReady && !allowRecovery) return false;
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(nextRecords));
+          records = nextRecords;
+          storageReady = true;
+          storageNotice.hidden = true;
+          return true;
+        } catch (error) {
+          showStorageError(`無法儲存資料：${error.message}。請確認瀏覽器允許使用本機儲存空間。`);
+          return false;
+        }
+      };
+
+      const safeImageUrl = (value) => {
+        try {
+          const url = new URL(value);
+          return url.protocol === "https:" || url.protocol === "http:" ? url.href : "";
+        } catch {
+          return "";
+        }
+      };
+
+      const createCard = (record) => {
+        const card = document.createElement("article");
+        card.className = "dress-card";
+
+        const imageArea = document.createElement("div");
+        imageArea.className = "card-image";
+        const placeholder = document.createElement("div");
+        placeholder.className = "image-placeholder";
+        const placeholderMark = document.createElement("span");
+        placeholderMark.textContent = "♡";
+        const placeholderText = document.createElement("small");
+        placeholderText.textContent = "DEAR DRESS";
+        placeholder.append(placeholderMark, placeholderText);
+        imageArea.append(placeholder);
+
+        const imageUrl = safeImageUrl(record.imageUrl);
+        if (imageUrl) {
+          const image = document.createElement("img");
+          image.src = imageUrl;
+          image.alt = `${record.vendor} ${record.dressId}`;
+          image.loading = "lazy";
+          image.addEventListener("load", () => placeholder.remove(), { once: true });
+          image.addEventListener("error", () => image.remove(), { once: true });
+          imageArea.append(image);
+        }
+
+        const tag = document.createElement("span");
+        tag.className = "type-tag";
+        tag.textContent = record.type;
+        imageArea.append(tag);
+
+        const content = document.createElement("div");
+        content.className = "card-content";
+        const vendor = document.createElement("div");
+        vendor.className = "card-vendor";
+        vendor.textContent = record.vendor;
+        const id = document.createElement("h3");
+        id.className = "card-id";
+        id.textContent = record.dressId;
+        const actions = document.createElement("div");
+        actions.className = "card-actions";
+
+        const editButton = document.createElement("button");
+        editButton.type = "button";
+        editButton.textContent = "編輯";
+        editButton.addEventListener("click", () => openEditor(record));
+        const deleteButton = document.createElement("button");
+        deleteButton.type = "button";
+        deleteButton.className = "delete-button";
+        deleteButton.textContent = "刪除";
+        deleteButton.addEventListener("click", () => deleteRecord(record.uid));
+
+        actions.append(editButton, deleteButton);
+        content.append(vendor, id, actions);
+        card.append(imageArea, content);
+        return card;
+      };
+
+      const updateVendorOptions = () => {
+        const selected = vendorFilter.value;
+        const vendors = [...new Set(records.map((record) => record.vendor))].sort((a, b) => a.localeCompare(b, "zh-Hant"));
+        vendorFilter.replaceChildren(new Option("所有廠商", ""));
+        vendorSuggestions.replaceChildren(...vendors.map((vendor) => new Option(vendor, vendor)));
+        vendors.forEach((vendor) => vendorFilter.add(new Option(vendor, vendor)));
+        if (vendors.includes(selected)) vendorFilter.value = selected;
+      };
+
+      const compareRecords = (a, b) =>
+        a.vendor.localeCompare(b.vendor, "zh-Hant", { numeric: true, sensitivity: "base" }) ||
+        (a.type === "白紗" ? 0 : 1) - (b.type === "白紗" ? 0 : 1) ||
+        a.dressId.localeCompare(b.dressId, "zh-Hant", { numeric: true, sensitivity: "base" });
+
+      const render = () => {
+        updateVendorOptions();
+        const query = searchInput.value.trim().toLocaleLowerCase();
+        const filtered = records.filter((record) => {
+          const matchesQuery = !query || `${record.vendor} ${record.dressId}`.toLocaleLowerCase().includes(query);
+          const matchesType = !typeFilter.value || record.type === typeFilter.value;
+          const matchesVendor = !vendorFilter.value || record.vendor === vendorFilter.value;
+          return matchesQuery && matchesType && matchesVendor;
+        }).sort(compareRecords);
+
+        document.getElementById("savedCount").textContent = `已收藏 ${records.length} 款`;
+        document.getElementById("resultCount").textContent = `顯示 ${filtered.length} 款`;
+        gallery.replaceChildren();
+
+        if (!filtered.length) {
+          const empty = document.createElement("div");
+          empty.className = "empty-state";
+          const heading = document.createElement("strong");
+          const description = document.createElement("p");
+          if (records.length === 0) {
+            heading.textContent = "收藏，從第一件開始。";
+            description.textContent = "新增婚紗或禮服，為試穿日留下喜歡的款式。";
+          } else {
+            heading.textContent = "沒有找到符合的款式。";
+            description.textContent = "試試其他關鍵字，或清除篩選條件。";
+          }
+          empty.append(heading, description);
+          gallery.append(empty);
+          return;
+        }
+
+        filtered.forEach((record) => gallery.append(createCard(record)));
+      };
+
+      const openEditor = (record = null) => {
+        if (!storageReady) return;
+        editingUid = record ? record.uid : null;
+        document.getElementById("editorTitle").textContent = record ? "編輯收藏" : "新增一份心動";
+        document.getElementById("saveButton").textContent = record ? "儲存修改" : "儲存收藏";
+        form.elements.vendor.value = record ? record.vendor : "";
+        form.elements.dressId.value = record ? record.dressId : "";
+        form.elements.imageUrl.value = record ? record.imageUrl : "";
+        form.elements.type.value = record ? record.type : "白紗";
+        formError.textContent = "";
+        editor.hidden = false;
+        editor.scrollIntoView({ behavior: "smooth", block: "center" });
+        form.elements.vendor.focus({ preventScroll: true });
+      };
+
+      const closeEditor = () => {
+        editor.hidden = true;
+        form.reset();
+        formError.textContent = "";
+        editingUid = null;
+      };
+
+      const deleteRecord = (uid) => {
+        const record = records.find((item) => item.uid === uid);
+        if (!record || !window.confirm(`確定刪除「${record.dressId}」這筆收藏嗎？`)) return;
+        const nextRecords = records.filter((item) => item.uid !== uid);
+        if (persistRecords(nextRecords)) render();
+      };
+
+      document.getElementById("openEditor").addEventListener("click", () => openEditor());
+      document.getElementById("closeEditor").addEventListener("click", closeEditor);
+      document.getElementById("cancelForm").addEventListener("click", closeEditor);
+      form.addEventListener("submit", (event) => {
+        event.preventDefault();
+        formError.textContent = "";
+        const vendor = form.elements.vendor.value.trim();
+        const dressId = form.elements.dressId.value.trim();
+        const imageUrl = form.elements.imageUrl.value.trim();
+        const type = form.elements.type.value;
+        if (!vendor || !dressId || !imageUrl || !ALLOWED_TYPES.has(type)) {
+          formError.textContent = "請完整填寫欄位，並選擇有效的類型。";
+          return;
+        }
+        if (!safeImageUrl(imageUrl)) {
+          formError.textContent = "圖片網址需為有效的 http 或 https 網址。";
+          return;
+        }
+
+        const record = { uid: editingUid || makeUid(), vendor, dressId, imageUrl, type };
+        const nextRecords = editingUid
+          ? records.map((item) => item.uid === editingUid ? record : item)
+          : [...records, record];
+        if (persistRecords(nextRecords)) {
+          closeEditor();
+          render();
+        }
+      });
+
+      searchInput.addEventListener("input", render);
+      typeFilter.addEventListener("change", render);
+      vendorFilter.addEventListener("change", render);
+      document.getElementById("clearFilters").addEventListener("click", () => {
+        searchInput.value = "";
+        typeFilter.value = "";
+        vendorFilter.value = "";
+        render();
+      });
+
+      document.getElementById("exportButton").addEventListener("click", () => {
+        if (!storageReady) return;
+        try {
+          const contents = JSON.stringify(records, null, 2);
+          const blob = new Blob([contents], { type: "application/json;charset=utf-8" });
+          const url = URL.createObjectURL(blob);
+          const downloadLink = document.createElement("a");
+          downloadLink.href = url;
+          downloadLink.download = `dear-dress-list-${new Date().toISOString().slice(0, 10)}.json`;
+          document.body.append(downloadLink);
+          downloadLink.click();
+          downloadLink.remove();
+          window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+        } catch (error) {
+          showStorageError(`無法匯出收藏清單：${error.message}`);
+        }
+      });
+
+      document.getElementById("importButton").addEventListener("click", () => importFile.click());
+      importFile.addEventListener("change", async () => {
+        const [file] = importFile.files;
+        if (!file) return;
+        try {
+          const imported = JSON.parse(await file.text());
+          if (!Array.isArray(imported) || !imported.every(isValidRecord)) {
+            throw new Error("檔案格式不符，請選擇由本網站匯出的有效 JSON 清單。");
+          }
+          if (new Set(imported.map((record) => record.uid)).size !== imported.length) {
+            throw new Error("清單中有重複的資料識別碼，無法匯入。");
+          }
+          if (persistRecords(imported, true)) {
+            closeEditor();
+            searchInput.value = "";
+            typeFilter.value = "";
+            vendorFilter.value = "";
+            render();
+          }
+        } catch (error) {
+          showStorageError(`匯入失敗：${error.message}`);
+        } finally {
+          importFile.value = "";
+        }
+      });
+
+      records = loadRecords();
+      render();
+    })();
+  </script>
+</body>
+</html>
