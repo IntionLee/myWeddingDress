@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#f8f5f1">
-  <title>Dear Dress｜婚紗・禮服收藏</title>
+  <title>婚紗・禮服收藏</title>
   <style>
     :root {
       color-scheme: light;
@@ -49,7 +49,6 @@
       text-decoration: none;
     }
 
-    .brand span { color: var(--rose); }
     .saved-count { color: var(--muted); font-size: 13px; }
     .top-actions { display: flex; align-items: center; gap: 12px; }
     .data-button {
@@ -69,14 +68,6 @@
       text-align: center;
     }
 
-    .eyebrow {
-      color: var(--rose);
-      font-family: var(--serif);
-      font-size: 12px;
-      letter-spacing: .28em;
-      text-transform: uppercase;
-    }
-
     h1 {
       margin: 13px 0 11px;
       font-family: var(--serif);
@@ -84,8 +75,6 @@
       font-weight: 400;
       letter-spacing: .06em;
     }
-
-    .hero p { margin: 0; color: var(--muted); font-size: 14px; letter-spacing: .04em; }
 
     .primary-button {
       min-height: 45px;
@@ -188,7 +177,6 @@
       letter-spacing: .04em;
     }
 
-    .collection-title p { margin: 0; color: var(--muted); font-size: 12px; }
     .filters { display: flex; justify-content: flex-end; gap: 9px; width: min(690px, 66%); }
     .search-wrap { position: relative; flex: 1; min-width: 160px; }
     .search-wrap::before {
@@ -287,7 +275,6 @@
       .saved-count { font-size: 11px; }
       .data-button { min-height: 32px; padding: 0 9px; font-size: 11px; }
       .hero { padding: 49px 0 32px; }
-      .hero p { font-size: 12px; }
       .editor { padding: 18px 15px; }
       .form-grid { grid-template-columns: 1fr; gap: 13px; }
       .form-footer { align-items: flex-start; flex-direction: column; }
@@ -306,7 +293,7 @@
 </head>
 <body>
   <header class="topbar page-shell">
-    <a class="brand" href="#" aria-label="Dear Dress 首頁">DEAR <span>DRESS</span></a>
+    <a class="brand" href="#" aria-label="首頁"></a>
     <div class="top-actions">
       <div class="saved-count" id="savedCount" aria-live="polite">已收藏 0 款</div>
       <button class="data-button" id="importButton" type="button" aria-label="匯入收藏清單">匯入</button>
@@ -317,27 +304,25 @@
 
   <main class="page-shell">
     <section class="hero" aria-labelledby="pageTitle">
-      <div class="eyebrow">Your wedding, your story</div>
       <h1 id="pageTitle">婚紗・禮服收藏</h1>
-      <p>把每一份心動好好收藏，為重要的日子找到最喜歡的模樣。</p>
       <button class="primary-button" id="openEditor" type="button">＋　新增收藏</button>
     </section>
 
     <section class="editor" id="editor" aria-labelledby="editorTitle" hidden>
       <div class="editor-heading">
-        <h2 id="editorTitle">新增一份心動</h2>
+        <h2 id="editorTitle">新增收藏</h2>
         <button class="text-button" id="closeEditor" type="button" aria-label="關閉表單">✕ 關閉</button>
       </div>
       <form id="dressForm">
         <div class="form-grid">
           <div class="field">
             <label for="vendorInput">廠商</label>
-            <input id="vendorInput" name="vendor" type="text" list="vendorSuggestions" maxlength="80" placeholder="例如：My Dear 婚紗" required>
+            <input id="vendorInput" name="vendor" type="text" list="vendorSuggestions" maxlength="80" placeholder="毛球球婚紗店" required>
             <datalist id="vendorSuggestions"></datalist>
           </div>
           <div class="field">
             <label for="dressIdInput">ID</label>
-            <input id="dressIdInput" name="dressId" type="text" maxlength="80" placeholder="例如：W528" required>
+            <input id="dressIdInput" name="dressId" type="text" maxlength="80" placeholder="MAO-001" required>
           </div>
           <div class="field">
             <label for="imageInput">圖片網址</label>
@@ -368,7 +353,6 @@
       <div class="collection-top">
         <div class="collection-title">
           <h2 id="collectionHeading">我的收藏</h2>
-          <p>每一件，都是為那一天留下的美好想像。</p>
         </div>
         <div class="filters" role="search" aria-label="篩選收藏">
           <div class="search-wrap">
@@ -392,7 +376,7 @@
     </section>
   </main>
 
-  <footer>DEAR DRESS · KEEP YOUR FAVORITES CLOSE</footer>
+  <footer>KEEP YOUR FAVORITES CLOSE</footer>
 
   <script>
     (() => {
@@ -578,7 +562,7 @@
       const openEditor = (record = null) => {
         if (!storageReady) return;
         editingUid = record ? record.uid : null;
-        document.getElementById("editorTitle").textContent = record ? "編輯收藏" : "新增一份心動";
+        document.getElementById("editorTitle").textContent = record ? "編輯收藏" : "新增收藏";
         document.getElementById("saveButton").textContent = record ? "儲存修改" : "儲存收藏";
         form.elements.vendor.value = record ? record.vendor : "";
         form.elements.dressId.value = record ? record.dressId : "";
